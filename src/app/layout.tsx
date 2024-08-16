@@ -8,6 +8,8 @@ import {
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Provider from "@/components/Provider";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,17 +25,20 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          {/* <SignedOut>
+      <Provider>
+        <html lang="en">
+          <body className={inter.className}>
+            {/* <SignedOut>
             <SignInButton />
           </SignedOut>
           <SignedIn>
             <UserButton />
           </SignedIn> */}
-          {children}
-        </body>
-      </html>
+            {children}
+            <Toaster />
+          </body>
+        </html>
+      </Provider>
     </ClerkProvider>
   );
 }

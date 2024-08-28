@@ -12,7 +12,7 @@ export async function uploadToS3(file: File) {
     });
 
     const file_key =
-      "uploads/" + Date.now().toString() + file.name.replace(" ", "-");
+      "/uploads/" + Date.now().toString() + file.name.replace(" ", "-");
 
     // Create an upload object
     const upload = new Upload({
@@ -31,14 +31,13 @@ export async function uploadToS3(file: File) {
       );
     });
 
-    upload.done().then((data) => {
-      console.log("Upload Success", file_key);
-    });
+    await upload.done();
+    console.log("Upload Success", file_key);
 
-    return Promise.resolve({
+    return {
       file_key,
       file_name: file.name,
-    });
+    };
   } catch (error) {
     console.error(error);
   }

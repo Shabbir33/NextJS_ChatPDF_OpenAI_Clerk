@@ -77,7 +77,10 @@ async function prepareDocument(page: PDFPage) {
   pageContent = pageContent.replace(/\n/g, " ");
 
   // Split the Docs
-  const splitter = new RecursiveCharacterTextSplitter();
+  const splitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 200,
+    chunkOverlap: 100,
+  });
   const docs = await splitter.splitDocuments([
     new Document({
       pageContent,
@@ -88,5 +91,6 @@ async function prepareDocument(page: PDFPage) {
     }),
   ]);
 
+  console.log(docs);
   return docs;
 }

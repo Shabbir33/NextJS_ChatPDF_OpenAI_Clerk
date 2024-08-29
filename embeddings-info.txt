@@ -1,0 +1,11 @@
+-- store --
+- obtain the pdf
+- split and segment the pdf
+- vectorize and embed individual documents
+- store the vectors in pineconedb
+
+-- search --
+- embed the query
+- query the pineconedb for similar vectors
+- extract out the metadata of the similar vectors
+- feed the metadata into openai prompt

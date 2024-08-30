@@ -1,6 +1,6 @@
 import { MetaData } from "@/types/context";
 import { getEmbeddings } from "./embeddings";
-import { pinecone } from "./pinecone";
+import { getPineconeClient } from "./pinecone";
 import { convertToAscii } from "./string";
 
 // We use fileKey for choosing the correct namespace in pineconedb i.e. correct file in consideration
@@ -8,8 +8,9 @@ export async function getMatchesFromEmbeddings(
   embeddings: number[],
   fileKey: string
 ) {
-  const index = await pinecone.Index("chatpdf");
   try {
+    const client = await getPineconeClient();
+    const index = await client.Index("chatpdf");
     const namespace = convertToAscii(fileKey);
     const queryResult = await index.namespace(namespace).query({
       topK: 5,

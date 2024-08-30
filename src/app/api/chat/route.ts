@@ -1,10 +1,12 @@
 import { getContext } from "@/lib/context";
 import { db } from "@/lib/db";
-import { chats } from "@/lib/db/schema";
+import { chats, messages as _messages } from "@/lib/db/schema";
 import { openai } from "@ai-sdk/openai";
 import { streamText, convertToCoreMessages, CoreMessage, Message } from "ai";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
+
+// export const runtime = "edge";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -46,6 +48,19 @@ export async function POST(req: Request) {
       prompt,
       ...messages.filter((message: Message) => message.role === "user"),
     ]),
+    onFinish: async (event) => {
+      await db.insert(_messages).values({
+        chatId,
+        content: lastMessage.content,
+        role: "user",
+      });
+
+      await db.insert(_messages).values({
+        chatId,
+        content: event.text,
+        role: "system",
+      });
+    },
   });
 
   return result.toDataStreamResponse();

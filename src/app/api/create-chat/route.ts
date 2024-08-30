@@ -5,6 +5,8 @@ import { getS3Url } from "@/lib/s3";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+// export const runtime = "edge";
+
 // Endpoint:- /api/create-chat
 export async function POST(req: Request, res: Response) {
   const { userId } = await auth();

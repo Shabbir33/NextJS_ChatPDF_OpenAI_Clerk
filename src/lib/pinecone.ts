@@ -15,7 +15,9 @@ import { getEmbeddings } from "./embeddings";
 import { Vector } from "@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch/data";
 import { convertToAscii } from "./string";
 
-export const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
+export const getPineconeClient = () => {
+  return new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
+};
 
 export async function loadS3IntoPinecone(file_key: string) {
   // 1. obtain the pdf -> download and read the pdf
@@ -39,7 +41,8 @@ export async function loadS3IntoPinecone(file_key: string) {
   )) as PineconeRecord<RecordMetadata>[];
 
   // 4. upload to pinecone
-  const pineconeIndex = pinecone.Index("chatpdf");
+  const client = await getPineconeClient();
+  const pineconeIndex = client.Index("chatpdf");
 
   console.log("inserting vectors into pinecone");
   const namespace = convertToAscii(file_key);

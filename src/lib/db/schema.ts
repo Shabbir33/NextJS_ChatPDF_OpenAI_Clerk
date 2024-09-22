@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import {
   integer,
   pgEnum,
@@ -29,4 +30,17 @@ export const messages = pgTable("messages", {
   content: text("content").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   role: userSystemEnum("role").notNull(),
+});
+
+export const userSubscriptions = pgTable("user_subcriptions", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id", { length: 256 }).notNull().unique(),
+  // razorpayCustomerId: varchar("razorpay_customer_id", { length: 256 })
+  //   .notNull()
+  //   .unique(),
+  razorpayOrderId: varchar("razorpay_order_id", { length: 256 })
+    .notNull()
+    .unique(),
+  razorpayPaymentId: varchar("razorpay_payment_id", { length: 256 }),
+  // razorpayCurrentPeriodEnd: timestamp("razorpay_current_period_end"),
 });

@@ -10,6 +10,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Provider from "@/components/Provider";
 import { Toaster } from "react-hot-toast";
+import Script from "next/script";
+import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +40,7 @@ export default function RootLayout({
             <Toaster />
           </body>
         </html>
+        {/* <Script src="https://checkout.razorpay.com/v1/checkout.js" /> */}
       </Provider>
     </ClerkProvider>
   );
